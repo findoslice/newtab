@@ -1,0 +1,21 @@
+body {
+    margin: 0;
+    background-image: url("../static/mostar-background.jpg");
+    background-repeat: no-repeat;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+
+    color: white;
+    font-family: 'Montserrat', sans-serif;
+}
+
+#weather {
+    float: right;
+}
+
+#weather h1 {
+    display: inline-block;
+    margin-right: 5px;
+}
