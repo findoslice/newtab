@@ -13,9 +13,26 @@ body {
 
 #weather {
     float: right;
+    margin-right: 25px;
+    margin-top: 25px;
 }
 
 #weather h1 {
     display: inline-block;
     margin-right: 5px;
+}
+
+#clock {
+    position: fixed;
+    height: 100vh;
+    width: 100vw;
+}
+
+#clock time {
+    position: absolute;
+    width: 100%;
+    font-size: 10em;
+    line-height: 80vh;
+    text-align: center;
+    font-weight: bold;
 }
