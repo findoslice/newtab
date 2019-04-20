@@ -5,6 +5,14 @@ body {
     font-family: 'Montserrat', sans-serif;
 }
 
+a {
+    color: white;
+    text-decoration: 2px dashed underline;
+}
+a:hover {
+    font-weight: bold;
+}
+
 #root {
     width: 100vw;
     height: 100vh;
@@ -51,6 +59,10 @@ body {
 
 #clock {
     text-align:center;
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none; 
 }
 
 #clock time {
@@ -62,9 +74,17 @@ body {
 }
 
 #bgdescription {
-    width: 100%;
+    width: 60%;
+    margin-left: 20%;
     bottom: 0;
     margin-bottom: 5%;
     position: absolute;
     text-align: center;
+}
+
+#footer {
+    position: absolute;
+    bottom: 0;
+    margin-left: 25px;
+    left: 0;
 }

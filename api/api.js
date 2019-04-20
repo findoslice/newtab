@@ -17,9 +17,10 @@ const pool = new Pool(config.postgres)
 
 app.get("/bg", (req,res) => {
     // select a random entry
-    pool.query("SELECT * FROM background_images ORDER BY RANDOM() LIMIT 1", (err, result) => {
+    pool.query("SELECT background_images.*, photographers.name, photographers.url FROM background_images INNER JOIN photographers ON background_images.photographer_id = photographers.id  ORDER BY RANDOM() LIMIT 1", (err, result) => {
         let entry = result.rows[0]
-        return res.json({image: entry.url, description: entry.description, photographer:{name:entry.photographer, url:entry.photographer_url}})
+        console.log(entry)
+        return res.json({image: entry.href, description: entry.description, photographer:{name:entry.name, url:entry.url}})
     })
 })
 

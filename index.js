@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 
 import Clock from'react-live-clock';
 
+import Footer from './app/js/Footer.js';
 import Weather from './app/js/Weather.js';
 import BackgroundDescription from './app/js/BackgroundDescription.js';
 
@@ -32,6 +33,7 @@ export default class App extends React.Component {
                         </div>
                     </div>
                     <BackgroundDescription bg = {this.state.bg} />
+                    <Footer />
                 </div>
             )
         } else {

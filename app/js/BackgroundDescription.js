@@ -13,7 +13,7 @@ export default class BackgroundDescription extends React.Component{
                     {this.props.bg.description}
                 </h3>
                 <p>
-                    Photo by <a href={this.props.bg.photographer.url} target="_blank">{this.props.bg.photographer.name}</a>
+                    Photo by {this.props.bg.photographer.url?<a href={this.props.bg.photographer.url} target="_blank">{this.props.bg.photographer.name}</a>:this.props.bg.photographer.name}
                 </p>
             </div>
         )
