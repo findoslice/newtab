@@ -26,6 +26,7 @@ export default class Weather extends React.Component {
 
     getThermometer(){
         let temp = this.state.weather.current_observation.condition.temperature;
+
         if (temp < 0) {
             return "fas fa-thermometer-low"
         } else if (temp < 10) {
@@ -33,6 +34,13 @@ export default class Weather extends React.Component {
         } else if (temp < 20 ) {
             return "fas fa-thermometer-half"
         } else if (temp < 30) {
+
+        if (temp < 5) {
+            return "fas fa-thermometer-low"
+        } else if (temp < 15 ) {
+            return "fas fa-thermometer-half"
+        } else if (temp < 25) {
+
             return "fas fa-thermometer-three-quarters"
         } else {
             return "fas fa-thermometer-high"
