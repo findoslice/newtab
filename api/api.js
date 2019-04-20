@@ -1,6 +1,7 @@
 const express = require('express');
 const OAuth = require('oauth');
 const bodyParser = require('body-parser');
+const {Pool, Client} = require('pg');
 
 const config = require('./config.json');
 
@@ -12,8 +13,14 @@ app.use(function(req, res, next) {
   });
 app.use(bodyParser.json())
 
+const pool = new Pool(config.postgres)
+
 app.get("/bg", (req,res) => {
-    return res.json({image: "https://cdn.newtab.findoslice.com/mostar-background.jpg", description: "Mostar is the largest city in Hercegovina in Bosnia, it is famous for its old bride.", photographer:{name:"Findlay Smith", url:"https://findoslice.com"}})
+    // select a random entry
+    pool.query("SELECT * FROM background_images ORDER BY RANDOM() LIMIT 1", (err, result) => {
+        let entry = result.rows[0]
+        return res.json({image: entry.url, description: entry.description, photographer:{name:entry.photographer, url:entry.photographer_url}})
+    })
 })
 
 app.post("/weather", (req,res) => {
@@ -31,7 +38,6 @@ app.post("/weather", (req,res) => {
         null,
         header
     );
-    console.log(req.body)
     request.get(
         `https://weather-ydn-yql.media.yahoo.com/forecastrss?lat=${req.body.lat}&lon=${req.body.lon}&format=json&u=c`,
         null,
