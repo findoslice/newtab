@@ -26,7 +26,7 @@ export default class Weather extends React.Component {
 
     getThermometer(){
         let temp = this.state.weather.current_observation.condition.temperature;
-        if (temp < 0) {
+        if (temp < 5) {
             return "fas fa-thermometer-low"
         } else if (temp < 15 ) {
             return "fas fa-thermometer-half"
@@ -99,6 +99,7 @@ export default class Weather extends React.Component {
         if (this.state.weather){
             return (
                 <div id = "weather">
+                    <p> {this.state.weather.location.city}, {this.state.weather.location.region}</p>
                     <h1>
                         <span className={this.getThermometer()}></span>
                         {this.state.weather.current_observation.condition.temperature}&deg;C

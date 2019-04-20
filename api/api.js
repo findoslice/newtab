@@ -10,6 +10,10 @@ app.use(function(req, res, next) {
   });
 app.use(bodyParser.json())
 
+app.get("/bg", (req,res) => {
+    return res.json({image: "https://cdn.newtab.findoslice.com/mostar-background.jpg", description: "Mostar is the largest city in Hercegovina in Bosnia, it is famous for its old bride.", photographer:{name:"Findlay Smith", url:"https://findoslice.com"}})
+})
+
 app.post("/weather", (req,res) => {
     let header = {
         "X-Yahoo-App-Id": "cbUnH26e"
