@@ -30,6 +30,10 @@ export default class App extends React.Component {
                     <div id = "center">
                         <div id = "clock">
                             <Clock format={'HH:mm'} ticking={true} timezone={Intl.DateTimeFormat().resolvedOptions().timeZone} />
+                            <br />
+                            <div id = "date">
+                                <Clock format={'DD/MM/YY'} ticking={true} timezone={Intl.DateTimeFormat().resolvedOptions().timeZone} />
+                            </div>
                         </div>
                     </div>
                     <BackgroundDescription bg = {this.state.bg} />
