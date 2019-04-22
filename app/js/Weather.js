@@ -9,6 +9,10 @@ export default class Weather extends React.Component {
         this.getThermometer = this.getThermometer.bind(this )
     }
 
+    tick() {
+        navigator.geolocation.getCurrentPosition(this.setPosition);
+    }
+
     setPosition(position) {
         fetch(`https://api.newtab.findoslice.com/weather`, {
             headers : { 
@@ -20,7 +24,7 @@ export default class Weather extends React.Component {
         }).then(response => {return response.json()}).then(
             json => {
                 console.log(json)
-                    this.setState({lat:position.coords.latitude, lon:position.coords.longitude, weather : json})
+                this.setState({lat:position.coords.latitude, lon:position.coords.longitude, weather : json})
             });
     }
 
@@ -96,6 +100,7 @@ export default class Weather extends React.Component {
         if (!(this.state.lat && this.state.lon)){
             navigator.geolocation.getCurrentPosition(this.setPosition);
         }
+        this.interval = setInterval(() => this.tick(), 600000);
     }
     render(){
         console.log(this.state.weather)

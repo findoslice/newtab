@@ -11,3 +11,11 @@ CREATE TABLE photographers (
     name varchar(255),
     url varchar(255)
 );
+
+CREATE TABLE users (
+    id SERIAL PRIMARY KEY,
+    name varchar(255) NOT NULL,
+    email varchar(255) NOT NULL UNIQUE,
+    password_hash text NOT NULL,
+    token text
+);

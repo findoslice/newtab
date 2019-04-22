@@ -32,6 +32,8 @@ a:hover {
 }
 
 
+
+
 #weather {
     float: right;
     margin-right: 25px;
@@ -56,6 +58,47 @@ a:hover {
     /* margin-top: 30%; */
 }
 
+#loginprompt {
+    position: absolute;
+    margin-top: 5vh;
+    width: 40%;
+    margin-left: 30%;
+    /* margin-top: 30%; */
+}
+
+#loginprompt #text {
+    text-align: center;
+    text-shadow: 2px 2px rgba(0,0,0,0.3);
+}
+
+
+#loginprompt ul{
+    list-style: none;
+    text-align: left;
+    margin-left: 5%;
+}
+#loginprompt li:before {
+    font-size: 3em;
+    font-family: "Font Awesome 5 Free";
+    content: '\f00c';
+    color: #00a700;
+}
+#loginprompt li {
+    margin-bottom: 25px;
+}
+#loginprompt li div {
+    font-family: 'Montserrat' !important;
+    color: white !important;
+    font-size: 1.2em !important;
+    margin-left: 70px;
+    margin-top: -50px;
+}
+#loginprompt h1 {
+    font-size:7em;
+    font-weight: bold;
+    letter-spacing: 5px;
+}
+
 #clock {
     text-align:center;
     user-select: none;
@@ -77,8 +120,8 @@ a:hover {
 }
 
 #bgdescription {
-    width: 40%;
-    margin-left: 30%;
+    width: 60%;
+    margin-left: 20%;
     bottom: 0;
     margin-bottom: 5%;
     position: absolute;
@@ -88,7 +131,62 @@ a:hover {
 
 #footer {
     position: absolute;
-    bottom: 0;
-    margin-left: 25px;
+    bottom: 25px;
+    margin-bottom: 0;
+    width: 96%;
+    margin-left: 2%;
     left: 0;
+}
+
+#footer p {
+    position: absolute;
+    left: 0;
+    margin: 0 !important;
+}
+
+#footer h4 {
+    position: absolute;
+    right: 0;
+    text-decoration: underline;
+    cursor: pointer;
+    margin: 0 !important;
+}
+
+#footer h4:hover {
+    font-weight: 1000;
+}
+
+#form {
+    width: 40%;
+    margin: 30%;
+    margin-top: 20%;
+    position: absolute;
+}
+
+#form input {
+    position: relative;
+    border-radius: 5px;
+    border: 1px solid white;
+}
+
+input[type=submit] {
+    color: #4ecdff;
+    background-color: rgb(255,255,255);
+}
+
+.textinput {
+    width: 100%;
+    display: block;
+    text-align: center;
+}
+
+.textinput input {
+    background-color: rgba(255,255,255,0.35);
+    width: 100%;
+    font-size: 2em;
+    color: white;
+}
+
+#error {
+    color: red;
 }
