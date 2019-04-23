@@ -20,8 +20,8 @@ a:hover {
 }
 
 #container {
-    width: 100vw;
-    height: 100vh;
+    width: 100%;
+    min-height: 100%;
     margin: 0;
     /* background-image: url("../static/mostar-background.jpg"); */
     background-repeat: no-repeat;
@@ -29,6 +29,7 @@ a:hover {
     -moz-background-size: cover;
     -o-background-size: cover;
     background-size: cover;
+    overflow-y: auto;
 }
 
 
@@ -59,15 +60,16 @@ a:hover {
 }
 
 #loginprompt {
-    position: absolute;
     margin-top: 5vh;
     width: 40%;
     margin-left: 30%;
+    margin-bottom: 2vh;
     /* margin-top: 30%; */
 }
 
 #loginprompt #text {
     text-align: center;
+    font-size: 1.1em;
     text-shadow: 2px 2px rgba(0,0,0,0.3);
 }
 
@@ -169,9 +171,35 @@ a:hover {
     border: 1px solid white;
 }
 
-input[type=submit] {
-    color: #4ecdff;
-    background-color: rgb(255,255,255);
+.button {
+    color: white;
+    background-color: rgba(0,0,0,0);
+    border: 1px solid white;
+    font-size: 1em;
+    line-height:100%;
+    border-radius: 5px;
+    padding: 15px;
+    margin: 10px;
+    min-width: 100px;
+    cursor: pointer;
+    transition: background-color 350ms linear;
+}
+
+.button:hover {
+    background-color: rgba(255,255,255, 0.35);
+    transition: background-color 350ms linear;
+}
+
+#form .button {
+    position: absolute;
+    width: 20%;
+    margin-left: 40%;
+    margin-top: 5%;
+    text-align: center;
+}
+
+.button :hover {
+    cursor: pointer;
 }
 
 .textinput {

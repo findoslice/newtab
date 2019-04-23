@@ -43,7 +43,7 @@ function validateUser(req, res) {
 
 app.use(cookieParser())
 app.use(function(req, res, next) {
-    res.header("Access-Control-Allow-Origin", "https://newtab.findoslice.com");
+    res.header("Access-Control-Allow-Origin", "https://tulip.findoslice.com");
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Cookie, Set-Cookie, credentials");
     res.header('Access-Control-Allow-Credentials', 'true');
     next();
@@ -64,7 +64,14 @@ app.use(bodyParser.json())
 
 
 app.get("/isloggedin", (req, res) => {
-    sendValidatedResponse(pool, req, res, {})
+    pool.query(`SELECT name, email FROM users WHERE token = $1`, [req.cookies['login-token']], (error,result) => {
+        console.log(result.rows)
+        if (!error && result.rows[0]) {
+            sendValidatedResponse(pool, req, res, {name: result.rows[0].name, email: result.rows[0].email})
+        } else {
+            sendValidatedResponse(pool, req, res, {});
+        }
+    })
     // console.log("loggedin", res.statusCode)
     // if (res.statusCode != 401) {
     //     res.status(200).send({})
@@ -114,6 +121,16 @@ app.post("/login", (req,res) => {
 app.post("/logout", (req, res) => {
     res.clearCookie('login-token')
     res.send()
+})
+
+app.post("/name", (req, res) => {
+    pool.query("SELECT name FROM users WHERE email = $1", [req.body.email], (err, result) => {
+        if (err){
+            res.status(400).send()
+        } else {
+            res.json({name: result.rows[0].name})
+        }
+    })
 })
 
 app.get("/bg", (req,res) => {

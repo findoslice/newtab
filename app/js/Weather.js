@@ -3,10 +3,11 @@ import React from 'react';
 export default class Weather extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {lat: undefined, lon: undefined, apiKey: "4351321560598b6b2c207fb9ccb98631"}
-        this.setPosition = this.setPosition.bind(this)
-        this.getIcon = this.getIcon.bind(this)
-        this.getThermometer = this.getThermometer.bind(this )
+        this.state = {lat: undefined, lon: undefined};
+        this.setPosition = this.setPosition.bind(this);
+        this.getIcon = this.getIcon.bind(this);
+        this.getThermometer = this.getThermometer.bind(this);
+        this.tick = this.tick.bind(this);
     }
 
     tick() {
@@ -14,7 +15,7 @@ export default class Weather extends React.Component {
     }
 
     setPosition(position) {
-        fetch(`https://api.newtab.findoslice.com/weather`, {
+        fetch(`https://api.tulip.findoslice.com/weather`, {
             headers : { 
               'Content-Type': 'application/json',
               'Accept': 'application/json'
