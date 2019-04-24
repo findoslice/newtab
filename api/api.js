@@ -43,7 +43,8 @@ function validateUser(req, res) {
 
 app.use(cookieParser())
 app.use(function(req, res, next) {
-    res.header("Access-Control-Allow-Origin", "https://tulip.findoslice.com");
+    console.log(req.get("origin"))
+    res.header("Access-Control-Allow-Origin", req.get("origin"));
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Cookie, Set-Cookie, credentials");
     res.header('Access-Control-Allow-Credentials', 'true');
     next();
@@ -92,7 +93,7 @@ app.post("/register", (req, res) => {
                     } else {
                         let token = bcrypt.hashSync(config.secret + req.body.email, 1);
                         pool.query(`UPDATE users SET token = $1 WHERE email = $2`, [token, req.body.email])
-                        res.cookie("login-token", token, {httpOnly: false}).json({token : token})
+                        res.cookie("login-token", token, {httpOnly: false, expires: new Date(Date.now() + (1000*3600*24*365*100))}).json({token : token})
                     }
                 })
     // let token = jwt.sign({ id: req.body.email }, config.secret, {
@@ -110,7 +111,7 @@ app.post("/login", (req,res) => {
             if (bcrypt.compareSync(req.body.password, result.rows[0].password_hash)) {
                 let token = bcrypt.hashSync(config.secret + req.body.email, 1);
                 pool.query(`UPDATE users SET token = $1 WHERE email = $2`, [token, req.body.email])
-                res.cookie("login-token", token, {httpOnly: false}).json({token : token})
+                res.cookie("login-token", token, {httpOnly: false, expires: new Date(Date.now() + (1000*3600*24*365*100))}).json({token : token})
             } else {
                 res.status(400).send()
             }

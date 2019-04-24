@@ -15,7 +15,7 @@ export default class Weather extends React.Component {
     }
 
     setPosition(position) {
-        fetch(`https://api.tulip.findoslice.com/weather`, {
+        fetch(`https://api.newtab.findoslice.com/weather`, {
             headers : { 
               'Content-Type': 'application/json',
               'Accept': 'application/json'
@@ -67,14 +67,18 @@ export default class Weather extends React.Component {
             case 7:
             case 13:
             case 14:
-            case 15:
             case 16:
                 return "fas fa-snowflake";
+            //windy, blowing
+            case 15:
+            case 23:
+            case 24:
+                return "fas fa-wind"
             //cloudy, misty, hazy
             case 26:
             case 20:
             case 21:
-                return "fas fa-cloud";
+            return "fas fa-cloud";
             //mostly|partly cloudy, night
             case 27:
             case 29:

@@ -16,7 +16,7 @@ export default class App extends React.Component {
     constructor(props) {
         super(props);
         this.state = {bg:undefined, loginView: undefined}
-        fetch("https://api.tulip.findoslice.com/isloggedin", {
+        fetch("https://api.newtab.findoslice.com/isloggedin", {
             method : "GET",
             headers : {
                 "Content-Type" : "application/json",
@@ -25,7 +25,7 @@ export default class App extends React.Component {
             credentials: "include"
         }).then(response => response.json()).then(json => {
                 this.setState({name:json.name, email:json.email})
-                fetch('https://api.tulip.findoslice.com/bg').then(response => response.json()
+                fetch('https://api.newtab.findoslice.com/bg').then(response => response.json()
                 ).then(json => {
                     console.log(json)
                     this.setState({bg: json})
@@ -44,10 +44,11 @@ export default class App extends React.Component {
         this.registered = this.registered.bind(this);
         this.setLoginView = this.setLoginView.bind(this);
         this.logOut = this.logOut.bind(this)
+        this.resetLoginPrompt = this.resetLoginPrompt.bind(this)
     }
 
     // componentWillMount() {
-    //     fetch("https://api.tulip.findoslice.com/name", {
+    //     fetch("https://api.newtab.findoslice.com/name", {
     //         method: "GET",
     //         credentials: "include"
     //     }).then(response => response.json()).then((json) => {
@@ -59,8 +60,12 @@ export default class App extends React.Component {
         this.setState({loginView: view})
     }
 
+    resetLoginPrompt() {
+        this.setState({loginView: undefined, loggedin: false})
+    }
+
     logOut() {
-        fetch("https://api.tulip.findoslice.com/logout", {
+        fetch("https://api.newtab.findoslice.com/logout", {
             method: "POST",
             credentials: "include"
         }).then(response => response.json()).then(
@@ -79,7 +84,7 @@ export default class App extends React.Component {
     }
 
     registered () {
-        fetch("https://api.tulip.findoslice.com/isloggedin", {
+        fetch("https://api.newtab.findoslice.com/isloggedin", {
             method : "GET",
             headers : {
                 "Content-Type" : "application/json",
@@ -88,7 +93,7 @@ export default class App extends React.Component {
             credentials: "include"
         }).then(response => response.json()).then(json => {
                 this.setState({name:json.name, email:json.email})
-                fetch('https://api.tulip.findoslice.com/bg').then(response => response.json()
+                fetch('https://api.newtab.findoslice.com/bg').then(response => response.json()
                 ).then(json => {
                     console.log(json)
                     this.setState({bg: json})
@@ -131,16 +136,16 @@ export default class App extends React.Component {
                 if (this.state.loginView === "register") {
                     return (
                         <div id="container" style={{backgroundImage : `url(${this.state.bg.image})`}}>
-                            <Register registered = {this.registered}/>
+                            <Register registered = {this.registered} resetLoginPrompt = {this.resetLoginPrompt} bg = {this.state.bg}/>
                         </div>
                     )
                 } else if (this.state.loginView === "login") {
                     return <div id="container" style={{backgroundImage : `url(${this.state.bg.image})`}}>
-                                <Login loggedIn = {this.registered} />
+                                <Login loggedIn = {this.registered} resetLoginPrompt = {this.resetLoginPrompt} bg = {this.state.bg}/>
                            </div>
                 } else {
                     return (<div id="container" style={{backgroundImage : `url(${this.state.bg.image})`}}>
-                        <LoginPrompt setLoginView = {this.setLoginView} />
+                        <LoginPrompt setLoginView = {this.setLoginView}/>
                     </div>)
                 }
             }

@@ -21,7 +21,7 @@ export default class LoginPrompt extends React.Component {
                 <div id = "text">
                 <img src="https://cdn.tulip.findoslice.com/tulip-banner.png" />
                     <h4>
-                        Tulip is a chrome extension, providing a sleek, visually appearing dashboard every time you open a new tab.
+                        Tulip is a chrome extension, providing a sleek, visually appealing dashboard every time you open a new tab.
                         Tulip is built around three core principles: that we should provide a minimalist, well built UI; that Tulip should be free in its entirety
                         to everybody; and that Tulip's source code should remain open source and publicly available forever.
                         These are our promises to you:

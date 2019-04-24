@@ -3,6 +3,8 @@ import Cookies from 'js-cookie';
 
 import PasswordHash from 'password-hash'
 
+import BackgroundDescription from './BackgroundDescription.js';
+
 export default class Register extends React.Component {
     constructor(props) {
         super(props)
@@ -13,10 +15,10 @@ export default class Register extends React.Component {
     register(event) {
         event.preventDefault();
         console.log(event.target.elements)
-        // let re = /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/
+        let re = /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/
         // console.log(re.test(event.target.elements.email.value))
-        if (event.target.elements.password.value === event.target.elements["password-repeat"].value /*&& re.test(event.target.elements.email.value)*/){
-            fetch("https://api.tulip.findoslice.com/register", {
+        if (event.target.elements.password.value === event.target.elements["password-repeat"].value && re.test(event.target.elements.email.value)){
+            fetch("https://api.newtab.findoslice.com/register", {
                 method : "POST",
                 headers : {
                     "Content-Type" : "application/json",
@@ -48,7 +50,9 @@ export default class Register extends React.Component {
 
     render () {
         return (
+            <div>
                 <div id = "form">
+                    <img src="https://cdn.tulip.findoslice.com/tulip-banner.png" onClick={this.props.resetLoginPrompt}/>
                     {this.state.err?<p id="error">{this.state.err}</p>:null}
                     <form onSubmit={this.register}>
                         <label className = "textinput">
@@ -74,6 +78,8 @@ export default class Register extends React.Component {
                         <input type="submit" value="Register!" className = "button"/>
                     </form>
                 </div>
+                <BackgroundDescription bg = {this.props.bg}/>
+            </div>
         )
     }
 }
