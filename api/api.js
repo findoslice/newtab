@@ -91,7 +91,7 @@ app.post("/register", (req, res) => {
                         console.log(err)
                         return res.status(401).send()
                     } else {
-                        let token = bcrypt.hashSync(config.secret + req.body.email, 1);
+                        let token = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
                         pool.query(`UPDATE users SET token = $1 WHERE email = $2`, [token, req.body.email])
                         res.cookie("login-token", token, {httpOnly: false, expires: new Date(Date.now() + (1000*3600*24*365*100))}).json({token : token})
                     }
@@ -109,9 +109,9 @@ app.post("/login", (req,res) => {
             res.status(400).send()
         } else {
             if (bcrypt.compareSync(req.body.password, result.rows[0].password_hash)) {
-                let token = bcrypt.hashSync(config.secret + req.body.email, 1);
-                pool.query(`UPDATE users SET token = $1 WHERE email = $2`, [token, req.body.email])
-                res.cookie("login-token", token, {httpOnly: false, expires: new Date(Date.now() + (1000*3600*24*365*100))}).json({token : token})
+                pool.query("SELECT token FROM users WHERE email = $1", [req.body.email], (err, result) => {
+                    res.cookie("login-token", result.rows[0].token, {httpOnly: false, expires: new Date(Date.now() + (1000*3600*24*365*100))}).json({token : result.rows[0].token})
+                })
             } else {
                 res.status(400).send()
             }

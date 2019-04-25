@@ -11,6 +11,7 @@ import BackgroundDescription from './app/js/BackgroundDescription.js';
 import Register from './app/js/Register.js';
 import Login from './app/js/Login.js';
 import LoginPrompt from './app/js/LoginPrompt.js';
+import SearchBar from './app/js/SearchBar.js'
 
 export default class App extends React.Component {
     constructor(props) {
@@ -117,6 +118,7 @@ export default class App extends React.Component {
             if (this.state.loggedin) {
                 return (
                     <div id="container" style={{backgroundImage : `url(${this.state.bg.image})`}}>
+                        <SearchBar />
                         <Weather />
                         <div id = "center">
                             <div id = "clock">

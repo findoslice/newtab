@@ -15,6 +15,11 @@ export default class Login extends React.Component {
     logIn(event) {
         event.preventDefault();
         console.log(event.target.elements)
+        let re = /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/
+        if (!re.test(event.target.elements.email.value)) {
+            this.setState({err: "invalid email"})
+            return
+        }
         fetch("https://api.newtab.findoslice.com/login", {
             method : "POST",
             headers : {
