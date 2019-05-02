@@ -12,6 +12,7 @@ import Register from './app/js/Register.js';
 import Login from './app/js/Login.js';
 import LoginPrompt from './app/js/LoginPrompt.js';
 import SearchBar from './app/js/SearchBar.js'
+import Name from './app/js/Name.js';
 
 export default class App extends React.Component {
     constructor(props) {
@@ -25,7 +26,7 @@ export default class App extends React.Component {
             },
             credentials: "include"
         }).then(response => response.json()).then(json => {
-                this.setState({name:json.name, email:json.email})
+                this.setState({name:json.name, preferred_name: json.preferred_name, email:json.email})
                 fetch('https://api.newtab.findoslice.com/bg').then(response => response.json()
                 ).then(json => {
                     console.log(json)
@@ -127,7 +128,7 @@ export default class App extends React.Component {
                                 <div id = "date">
                                     <Clock format={'DD/MM/YY'} ticking={true} timezone={Intl.DateTimeFormat().resolvedOptions().timeZone} />
                                 </div>
-                                <h1> Hello, {this.state.name.split(" ")[0]}!</h1>
+                                <Name />
                             </div>
                         </div>
                         <BackgroundDescription bg = {this.state.bg} />

@@ -65,10 +65,10 @@ app.use(bodyParser.json())
 
 
 app.get("/isloggedin", (req, res) => {
-    pool.query(`SELECT name, email FROM users WHERE token = $1`, [req.cookies['login-token']], (error,result) => {
+    pool.query(`SELECT name, preferred_name, email FROM users WHERE token = $1`, [req.cookies['login-token']], (error,result) => {
         console.log(result.rows)
         if (!error && result.rows[0]) {
-            sendValidatedResponse(pool, req, res, {name: result.rows[0].name, email: result.rows[0].email})
+            sendValidatedResponse(pool, req, res, {name: result.rows[0].name, preferred_name: result.rows[0].preferred_name, email: result.rows[0].email})
         } else {
             sendValidatedResponse(pool, req, res, {});
         }
@@ -85,8 +85,8 @@ app.get("/isloggedin", (req, res) => {
 
 app.post("/register", (req, res) => {
     //console.log(req.cookies)
-    pool.query(`INSERT INTO users (name, email, password_hash) 
-                VALUES ($1, $2, $3)`, [req.body.name, req.body.email, bcrypt.hashSync(req.body.password, 10)], (err, result) => {
+    pool.query(`INSERT INTO users (name, preferred_name, email, password_hash) 
+                VALUES ($1, $2, $3, $4)`, [req.body.name, req.body.name.split(" ")[0], req.body.email, bcrypt.hashSync(req.body.password, 10)], (err, result) => {
                     if (err) {
                         console.log(err)
                         return res.status(401).send()
@@ -124,12 +124,23 @@ app.post("/logout", (req, res) => {
     res.send()
 })
 
-app.post("/name", (req, res) => {
-    pool.query("SELECT name FROM users WHERE email = $1", [req.body.email], (err, result) => {
+app.get("/name", (req, res) => {
+    console.log(req.cookies)
+    pool.query("SELECT name, preferred_name FROM users WHERE token = $1", [req.cookies['login-token']], (err, result) => {
         if (err){
             res.status(400).send()
         } else {
-            res.json({name: result.rows[0].name})
+            res.json({name: result.rows[0].name, preferred_name: result.rows[0].preferred_name})
+        }
+    })
+})
+
+app.post("/updatename", (req, res) => {
+    pool.query("UPDATE users SET preferred_name = $1 WHERE token = $2", [req.body.preferred_name, req.cookies["login-token"]], (err, result) => {
+        if (err) {
+            res.sendStatus(400);
+        } else {
+            res.sendStatus(200);
         }
     })
 })
@@ -183,5 +194,11 @@ app.post("/weather", (req, res) => {
         }
     );
 });
+
+pool.query('SELECT name FROM users;', (error, result) => {
+    result.rows.map((res) => {
+        pool.query('UPDATE users SET preferred_name = $1 WHERE name = $2', [res.name.split(" ")[0], res.name])
+    })
+})
 
 app.listen(7500, () => {console.log("listening on port 7500")})

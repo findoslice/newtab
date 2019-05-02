@@ -38,7 +38,7 @@ a:hover {
 #weather {
     float: right;
     margin-right: 25px;
-    margin-top: 5px;
+    margin-top: 10px;
 }
 
 #weather h1{
@@ -49,6 +49,7 @@ a:hover {
 
 #weather p {
     margin-bottom: 0;
+    margin-top: 0;
 }
 
 #center {
@@ -272,4 +273,49 @@ a:hover {
 
 #searchbar input:focus {
     outline: none !important;
+}
+
+#name {
+    cursor: pointer !important;
+}
+
+#name input {
+    border: none;
+    display: inline-block;
+    font-family: inherit;
+    font-size: inherit;
+    padding: none;
+    background-color: rgba(0,0,0,0);
+    color: white;
+    font-weight:bold;
+    min-width: 5px;
+    white-space: nowrap;
+    cursor: pointer;
+    position: relative;
+}
+
+#name input:focus {
+    border: none;
+    outline: none;
+    border-bottom: 2px solid white;
+}
+
+#name .fas {
+    display: none;
+    margin-left: 5px;
+    position: relative;
+    color: rgba(255,255,255,0.65)
+}
+
+#name .fas:after {
+    content: '\f303';
+    position: absolute;
+    display: none;
+    margin-left: 5px;
+    color: rgba(255,255,255,0.65);
+}
+
+#name:hover .fas, #name:focus-within .fas {
+    display: inline;
+    position: absolute;
 }

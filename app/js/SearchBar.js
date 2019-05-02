@@ -11,7 +11,7 @@ export default class SearchBar extends React.Component {
     search(event) {
         event.preventDefault()
         let searchEndpoint = "https://ecosia.org/search?q=" + encodeURIComponent(event.target.elements.search.value).replace(/%20/g, "+")
-        window.location.replace(searchEndpoint)
+        window.location.href = (searchEndpoint)
     }
 
     render() {
