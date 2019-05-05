@@ -5,10 +5,11 @@ export default class ToDo extends React.Component {
     constructor(props) {
         super(props)
         this.state = {content: this.props.content, id: this.props.id, style: {
-            width: (this.props.content.length*16+12).toString() + "px"
+            width: (this.props.content.length*16+12).toString() + "px",
         }}
         this.onChange = this.onChange.bind(this);
         this.updateToDo = this.updateToDo.bind(this);
+        this.deleteToDo = this.deleteToDo.bind(this);
     }
 
     componentWillMount() {
@@ -34,6 +35,10 @@ export default class ToDo extends React.Component {
         })
     }
 
+    deleteToDo() {
+        this.props.delete(this.props.id)
+    }
+
     onChange(event) {
         console.log(event.target.innerText)
         this.setState({content: event.target.innerText, style: {
@@ -49,15 +54,19 @@ export default class ToDo extends React.Component {
         if (this.props.title) {
             return (
                 <h4
-                    contentEditable="true" onInput={this.onChange} onBlur = {this.updateToDo}>
+                    contentEditable="true" onInput={this.onChange} 
+                    onBlur = {this.updateToDo}>
                         {this.props.title}
+                        <span onClick = {this.deleteToDo} className = "fas fa-trash-alt" style= {this.state.trashStyle}></span>
                 </h4>
             )
         } else {
             return (
                 <li key={this.state.id}
-                    contentEditable="true" onInput={this.onChange} onBlur = {this.updateToDo}>
+                    contentEditable="true" onInput={this.onChange} 
+                    onBlur = {this.updateToDo}>
                         {this.state.content}
+                        <span onClick = {this.deleteToDo} className = "fas fa-trash-alt" style= {this.state.trashStyle}></span>
                 </li>
             )
         }

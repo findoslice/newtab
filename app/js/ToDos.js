@@ -37,7 +37,7 @@ export default class ToDos extends React.Component {
                         {this.state.unclassified.map((el, index) => {
                             if ((el.sublist === null || el.sublist === this.props.sublist) && !el.list_heading) {
                                 return (
-                                    <ToDo {...el} />
+                                    <ToDo {...el} delete = {this.props.delete}/>
                                     )
                                 } else {
                                     return null
@@ -46,10 +46,11 @@ export default class ToDos extends React.Component {
                         {this.state.list_headings.map((el, index) => {
                             return (
                                 <li key={index*4}>
-                                    <ToDo title = {el.content} {...el} />
+                                    <ToDo title = {el.content} {...el} delete = {this.props.delete}/>
                                     <ToDos sublist = {el.id} 
                                         unclassified = {this.props.unclassified}
-                                        topLevel = {false}/>
+                                        topLevel = {false}
+                                        delete = {this.props.delete}/>
                                 </li>
                         )})}
                     </ul>
@@ -57,14 +58,15 @@ export default class ToDos extends React.Component {
             ) 
         } else {
             return (
-                <div>
+                <div id = "todos-container">
                     <div className = "kanban">
                         <h4>Unclassified ToDos</h4>
                         <ul>
                             {this.state.unclassified.sort((a,b) => (a>b)?1:-1).map((el, index) => {
                                 if ((el.sublist === null || el.sublist === this.props.sublist) && !el.list_heading) {
                                     return (
-                                        <ToDo {...el} />
+                                        <ToDo {...el} 
+                                        delete = {this.props.delete}/>
                                         )
                                     } else {
                                         return null
@@ -75,10 +77,12 @@ export default class ToDos extends React.Component {
                         {this.state.list_headings.sort((a,b) => (a>b)?1:-1).map((el, index) => {
                             return (
                                 <div className="kanban">
-                                    <ToDo title = {el.content} {...el}/>
+                                    <ToDo title = {el.content} {...el}
+                                          delete = {this.props.delete}/>
                                     <ToDos sublist = {el.id} 
                                         unclassified = {this.props.unclassified}
-                                        isChild = {!!this.props.sublist}/>
+                                        isChild = {!!this.props.sublist}
+                                        delete = {this.props.delete}/>
                                 </div>
                         )})}
                 </div>

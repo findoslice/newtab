@@ -7,6 +7,7 @@ export default class Dashboard extends React.Component {
         super(props)
         this.state = {unclassified: [], list_headings:[]}
         this.addToDo = this.addToDo.bind(this)
+        this.deleteToDo = this.deleteToDo.bind(this)
     }
 
     componentWillMount() {
@@ -38,11 +39,35 @@ export default class Dashboard extends React.Component {
                 list_heading: event.target.elements.list_heading.checked
             })
         }).then(response => response.json()).then(json => {
-            let temp = this.state.unclassified
-            temp.push(json)
-            this.setState({unclassified: temp})
+            fetch("https://api.newtab.findoslice.com/todos/all", {
+                method: "GET",
+                credentials: "include"
+            }).then(response => response.json()).then(json => {
+                this.setState(json)
+            })
         })
     }
+
+    deleteToDo (id) {
+        fetch("https://api.newtab.findoslice.com/todos/delete", {
+            method: "DELETE",
+            credentials: 'include',
+            headers : {
+                "Content-Type" : "application/json",
+                "Accept" : "application/json"
+            },
+            body: JSON.stringify({
+                id: id
+            })
+        }).then(response => {
+            fetch("https://api.newtab.findoslice.com/todos/all", {
+                method: "GET",
+                credentials: "include"
+            }).then(response => response.json()).then(json => {
+                this.setState(json)
+            })
+        })
+    } 
 
     render() {
         console.log(this.state)
@@ -59,7 +84,7 @@ export default class Dashboard extends React.Component {
                     <input type = "checkbox" name = "list_heading" />
                     <input type="submit" className = "button" value = "Add todo"/>
                 </form>
-                <ToDos unclassified = {this.state.unclassified} list_headings = {this.state.list_headings} topLevel = {true}/>
+                <ToDos unclassified = {this.state.unclassified} list_headings = {this.state.list_headings} topLevel = {true} delete = {this.deleteToDo}/>
             </div>
         )
     }

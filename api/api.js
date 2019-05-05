@@ -45,6 +45,7 @@ app.use(cookieParser())
 app.use(function(req, res, next) {
     console.log(req.get("origin"))
     res.header("Access-Control-Allow-Origin", req.get("origin"));
+    res.header("Access-Control-Allow-Methods", "DELETE, GET, POST, PUT, OPTIONS, HEAD")
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Cookie, Set-Cookie, credentials");
     res.header('Access-Control-Allow-Credentials', 'true');
     next();
@@ -192,6 +193,17 @@ app.post("/todos/new", (req, res) => {
         } else {
             console.log(result)
             res.json(result.rows[0])
+        }
+    })
+})
+
+app.delete("/todos/delete", (req,res) => {
+    pool.query(`DELETE FROM todos WHERE id = $1 AND user_id IN (SELECT id FROM users WHERE token = $2);`, [req.body.id, req.cookies['login-token']], (err, result) => {
+        if (err) {
+            console.log(err.stack)
+            res.sendStatus(400)
+        } else {
+            res.sendStatus(200)
         }
     })
 })
