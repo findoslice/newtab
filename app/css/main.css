@@ -60,6 +60,29 @@ a:hover {
     /* margin-top: 30%; */
 }
 
+#todos {
+    position: fixed;
+    margin-top: 10vh;
+    width: 80%;
+    margin-left: 10%;
+}
+
+.kanban {
+    background-color: rgba(0, 0, 0, 0.301);
+    border-radius: 5px;
+    height: 100%;
+    width: 20%;
+    margin: 5%;
+    margin-bottom: 0;
+    margin-top: 10px;
+    padding: 10px;
+    border: 1px solid white;
+}
+
+.kanban h4 {
+    margin: 0;
+}
+
 #loginprompt {
     margin-top: 5vh;
     width: 40%;
@@ -275,10 +298,6 @@ a:hover {
     outline: none !important;
 }
 
-#name {
-    cursor: pointer !important;
-}
-
 #name input {
     border: none;
     display: inline-block;
@@ -300,12 +319,11 @@ a:hover {
     border-bottom: 2px solid white;
 }
 
-#name .fas {
+/* #name .fas {
     display: none;
     margin-left: 5px;
-    position: relative;
     color: rgba(255,255,255,0.65)
-}
+} */
 
 #name .fas:after {
     content: '\f303';
@@ -313,9 +331,16 @@ a:hover {
     display: none;
     margin-left: 5px;
     color: rgba(255,255,255,0.65);
+    margin-top: -1em;
 }
 
-#name:hover .fas, #name:focus-within .fas {
+#name:hover .fas:after, #name:focus-within .fas:after {
     display: inline;
     position: absolute;
+}
+
+textarea {
+    width: 100%;
+    overflow: visible;
+    resize: none;
 }

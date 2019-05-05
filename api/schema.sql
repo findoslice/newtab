@@ -19,3 +19,14 @@ CREATE TABLE users (
     password_hash text NOT NULL,
     token text
 );
+
+CREATE TABLE todos (
+    id SERIAL PRIMARY KEY,
+    content text NOT NULL,
+    list_heading BOOLEAN DEFAULT false,
+    sublist text,
+    start_date varchar(255),
+    end_date varchar(255),
+    user_id int,
+    FOREIGN KEY (user_id) REFERENCES users (id)
+);

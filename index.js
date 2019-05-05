@@ -13,6 +13,9 @@ import Login from './app/js/Login.js';
 import LoginPrompt from './app/js/LoginPrompt.js';
 import SearchBar from './app/js/SearchBar.js'
 import Name from './app/js/Name.js';
+import Home from './app/js/Home.js';
+import ToDos from './app/js/ToDos.js';
+import Dashboard from './app/js/Dashboard.js';
 
 export default class App extends React.Component {
     constructor(props) {
@@ -47,6 +50,7 @@ export default class App extends React.Component {
         this.setLoginView = this.setLoginView.bind(this);
         this.logOut = this.logOut.bind(this)
         this.resetLoginPrompt = this.resetLoginPrompt.bind(this)
+        this.todo = this.todo.bind(this)
     }
 
     // componentWillMount() {
@@ -113,26 +117,22 @@ export default class App extends React.Component {
         })})
     }
 
+    todo() {
+        this.setState({todo: true})
+    }
+
     render() {
         console.log(this.state)
         if (this.state.bg != undefined) {
             if (this.state.loggedin) {
                 return (
                     <div id="container" style={{backgroundImage : `url(${this.state.bg.image})`}}>
-                        <SearchBar />
-                        <Weather />
-                        <div id = "center">
-                            <div id = "clock">
-                                <Clock format={'HH:mm'} ticking={true} timezone={Intl.DateTimeFormat().resolvedOptions().timeZone} />
-                                <br />
-                                <div id = "date">
-                                    <Clock format={'DD/MM/YY'} ticking={true} timezone={Intl.DateTimeFormat().resolvedOptions().timeZone} />
-                                </div>
-                                <Name />
-                            </div>
-                        </div>
-                        <BackgroundDescription bg = {this.state.bg} />
-                        <Footer logOut = {this.logOut}/>
+                    <SearchBar />
+                    <Weather />
+                    {this.state.todo?<Dashboard />:<Home todo = {this.todo} />}
+                    {this.state.todo?null:<BackgroundDescription bg = {this.state.bg} />}
+                    <Footer logOut = {this.logOut}/>
+                        {/* {this.state.todo?<ToDos />:<Home logOut = {this.logOut} bg = {this.state.bg} todo = {this.todo}/>} */}
                     </div>
                 )
             } else {

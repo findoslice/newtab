@@ -156,6 +156,46 @@ app.get("/bg", (req,res) => {
             )
 })
 
+app.get("/todos/all", (req, res) => {
+    pool.query("SELECT todos.* FROM todos LEFT JOIN users ON todos.user_id = users.id WHERE users.token = $1;", [req.cookies['login-token']], (err, result) => {
+        if (!err && result.rows.length > 0) {
+            response = {unclassified: result.rows}
+            res.json(response)
+        } else if (result.rows.length === 0) {
+            res.send(204)
+        } else {
+            res.send(400)
+        }
+    })
+})
+
+app.post("/todos/update", (req,res) => {
+    pool.query(`UPDATE todos
+                SET content = $1
+                FROM users
+                WHERE todos.id = $2 AND todos.user_id = users.id AND users.token = $3`, [req.body.content, req.body.id, req.cookies['login-token']], (err, result) => {
+        if (err) {
+            console.log(err.stack)
+            res.send(400)
+        } else {
+            res.send(200)
+        }
+    })
+})
+
+app.post("/todos/new", (req, res) => {
+    console.log(req.body)
+    pool.query(`INSERT INTO todos (content, list_heading, sublist, user_id) SELECT $1,$2,$3, id FROM users WHERE token = $4 RETURNING todos.*;`, [req.body.content, req.body.list_heading, req.body.sublist, req.cookies['login-token']], (err, result) => {
+        if (err) {
+            console.log(err.stack)
+            res.sendStatus(400)
+        } else {
+            console.log(result)
+            res.json(result.rows[0])
+        }
+    })
+})
+
 
 app.post("/weather", (req, res) => {
     console.log("weather", res.statusCode)
@@ -194,11 +234,5 @@ app.post("/weather", (req, res) => {
         }
     );
 });
-
-pool.query('SELECT name FROM users;', (error, result) => {
-    result.rows.map((res) => {
-        pool.query('UPDATE users SET preferred_name = $1 WHERE name = $2', [res.name.split(" ")[0], res.name])
-    })
-})
 
 app.listen(7500, () => {console.log("listening on port 7500")})

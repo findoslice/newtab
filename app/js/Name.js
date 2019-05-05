@@ -5,23 +5,46 @@ export default class Name extends React.Component {
     constructor(props){
         super(props);
         this.state = {style:{width:"5px"}};
-        this.handleChange = this.handleChange.bind(this);
+        this.submitName = this.submitName.bind(this);
+        this.onChange = this.onChange.bind(this);
+        this.onUnload = this.onUnload.bind(this);
+    }
+
+    onUnload(event) {
+        event.preventDefault()
+        event.retrunValue = ''
+        fetch("https://api.newtab.findoslice.com/updatename", {
+            method : "POST",
+            headers : {
+                "Content-Type" : "application/json",
+                "Accept" : "application/json"
+            },
+            credentials: "include",
+            body: JSON.stringify({
+                preferred_name: this.state.preferredName
+            })
+        })
     }
 
     componentWillMount() {
+        window.addEventListener('beforeunload', this.onUnload);
         fetch("https://api.newtab.findoslice.com/name", {
             method : "GET",
             credentials: "include"
         }).then(response => response.json()).then(json => {
             this.setState({preferredName: json.preferred_name, style: {
-                width: ((json.preferred_name.length + 1) * 16).toString() + "px"
+                width: ((json.preferred_name.length) * 16 + 12).toString() + "px"
             }})
         })
     }
 
-    handleChange(event) {
+    componentWillUnmount() {
+        window.removeEventListener('beforeunload', this.onUnload);
+    }
+
+    submitName(event) {
         this.setState({preferredName: event.target.value, style:{
-                    width: ((event.target.value.length) * 16+4).toString() + "px"
+                    width: ((event.target.value.length) * 16+12).toString() + "px"
                 }
             }
         )
@@ -38,12 +61,20 @@ export default class Name extends React.Component {
         })
     }
 
+    onChange(event) {
+        this.setState({preferredName: event.target.value, style:{
+            width: ((event.target.value.length) * 16+12).toString() + "px"
+        }
+    }
+)
+    }
+
     render() {
         console.log(this.state.style)
         return (
             <div id="name">
-                <h1> Hello, <input type="text" value={this.state.preferredName} onChange={this.handleChange} style = {this.state.style}/>!
-                <span className="fas fa-pencil-alt"></span>
+                <h1> Hello, <input type="text" value={this.state.preferredName} onBlur={this.submitName} onChange = {this.onChange} style = {this.state.style}/>!
+                <span className="fas"></span>
                 </h1>
             </div>
         )
