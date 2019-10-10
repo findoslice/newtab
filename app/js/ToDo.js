@@ -4,12 +4,13 @@ export default class ToDo extends React.Component {
 
     constructor(props) {
         super(props)
-        this.state = {content: this.props.content, id: this.props.id, style: {
+        this.state = {...props, style: {
             width: (this.props.content.length*16+12).toString() + "px",
         }}
         this.onChange = this.onChange.bind(this);
         this.updateToDo = this.updateToDo.bind(this);
         this.deleteToDo = this.deleteToDo.bind(this);
+        this.toggle = this.toggle.bind(this)
     }
 
     componentWillMount() {
@@ -39,6 +40,21 @@ export default class ToDo extends React.Component {
         this.props.delete(this.props.id)
     }
 
+    toggle () {
+        fetch("https://api.newtab.findoslice.com/todos/complete", {
+            method : "POST",
+            headers : {
+                "Content-Type" : "application/json",
+                "Accept" : "application/json"
+            },
+            credentials: "include",
+            body: JSON.stringify({
+                id: this.state.id,
+                status: !this.state.completed
+            })
+        }).then(this.setState({completed: !this.state.completed}))
+    }
+
     onChange(event) {
         console.log(event.target.innerText)
         this.setState({content: event.target.innerText, style: {
@@ -55,9 +71,10 @@ export default class ToDo extends React.Component {
             return (
                 <h4
                     contentEditable="true" onInput={this.onChange} 
-                    onBlur = {this.updateToDo}>
+                    onBlur = {this.updateToDo}
+                    >
                         {this.props.title}
-                        <span onClick = {this.deleteToDo} className = "fas fa-trash-alt" style= {this.state.trashStyle}></span>
+                            <span onClick = {this.deleteToDo} className = "fas fa-trash-alt" style= {this.state.trashStyle}></span>
                 </h4>
             )
         } else {

@@ -197,6 +197,17 @@ app.post("/todos/new", (req, res) => {
     })
 })
 
+app.post("/todos/complete", (req, res) => {
+    pool.query("UPDATE todos SET completed = $1 WHERE id = $2 AND user_id IN (SELECT id FROM users WHERE token = $2);", [req.body.status, req.body.id, req.cookies['login-token']], (err, result) => {
+        if (err) {
+            console.log(err.stack)
+            res.sendStatus(400)
+        } else {
+            res.sendStatus(200)
+        }
+    })
+})
+
 app.delete("/todos/delete", (req,res) => {
     pool.query(`DELETE FROM todos WHERE id = $1 AND user_id IN (SELECT id FROM users WHERE token = $2);`, [req.body.id, req.cookies['login-token']], (err, result) => {
         if (err) {
@@ -246,5 +257,16 @@ app.post("/weather", (req, res) => {
         }
     );
 });
+
+app.get("/lifetracker", (req, res) => {
+    pool.query("SELECT * FROM lifetracker;", (err, result) => {
+        if (err) {
+            console.log(err.stack)
+            res.sendStatus(500)
+        } else {
+            res.json(result.rows)
+        }
+    })
+})
 
 app.listen(7500, () => {console.log("listening on port 7500")})

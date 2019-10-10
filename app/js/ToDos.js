@@ -2,10 +2,19 @@ import React from 'react';
 
 import ToDo from './ToDo.js';
 
+export class ToDoList extends React.Component {
+
+    constructor(props) {
+        super(props)
+
+    }
+}
+
 export default class ToDos extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {unclassified: props.unclassified, list_headings: props.unclassified.filter(el => el.list_heading)}
+        this.state = {}
+        this.deleteToDo = this.deleteToDo.bind(this)
         if (this.props.sublist) {
             this.state.unclassified = this.props.unclassified
             this.state.list_headings = this.props.unclassified.filter(el => {
@@ -15,6 +24,20 @@ export default class ToDos extends React.Component {
             this.state.list_headings = this.props.unclassified.filter(el => {
                 return el.list_heading})
         }
+    }
+
+    deleteToDo (id) {
+        this.props.delete(id)
+        // if (this.state.unclassified.length == 1 && this.state.list_headings.length == 0) {
+        //     this.state.unclassified = []
+        // } else if (this.state.unclassified.length == 0 && this.state.list_headings == 1) {
+        //     this.state.list_headings = []
+        // } 
+        // else {
+        //     this.state.unclassified = this.state.unclassified.filter(el => !(el.id == id || el.sublist == id))
+        //     this.state.list_headings = this.state.list_headings.filter(el => !(el.id == id || el.sublist == id))
+        // }
+        //this.setState({unclassified: this.state.unclassified.filter(el => !(el.id == id || el.sublist == id)), list_headings: this.state.list_headings.filter(el => !(el.id == id || el.sublist == id))})
     }
 
 
@@ -37,7 +60,7 @@ export default class ToDos extends React.Component {
                         {this.state.unclassified.map((el, index) => {
                             if ((el.sublist === null || el.sublist === this.props.sublist) && !el.list_heading) {
                                 return (
-                                    <ToDo {...el} delete = {this.props.delete}/>
+                                    <ToDo {...el} delete = {this.deleteToDo}/>
                                     )
                                 } else {
                                     return null
@@ -50,7 +73,7 @@ export default class ToDos extends React.Component {
                                     <ToDos sublist = {el.id} 
                                         unclassified = {this.props.unclassified}
                                         topLevel = {false}
-                                        delete = {this.props.delete}/>
+                                        delete = {this.deleteToDo}/>
                                 </li>
                         )})}
                     </ul>

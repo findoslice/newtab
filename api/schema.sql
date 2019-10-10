@@ -30,3 +30,10 @@ CREATE TABLE todos (
     user_id int,
     FOREIGN KEY (user_id) REFERENCES users (id)
 );
+
+CREATE TABLE lifetracker (
+    date timestamp not null default CURRENT_TIMESTAMP,
+    weight int default null,
+    gymtime int default 0,
+    cigarettes int default 0
+);
